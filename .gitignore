@@ -1,0 +1,17 @@
+# Python and Jupyter
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+.venv/
+venv/
+
+# Local and generated files
+tmp/
+*.log
+
+# Operating-system files
+.DS_Store
+Thumbs.db
+
+# Power BI local workspace files
+*.pbix.user

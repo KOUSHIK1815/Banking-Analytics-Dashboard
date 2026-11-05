@@ -1,12 +1,9 @@
 # Source tables
 
-This directory preserves the original relational data bundle:
+This directory contains the relational lookup tables used by the SQL star schema:
 
-- `banking-clients.csv` - 3,000 client records; byte-for-byte identical to the root `Banking.csv`.
-- `banking-realtionships.csv` - banking relationship lookup. The original filename spelling is preserved.
-- `gender.csv` - gender lookup.
-- `investment-advisiors.csv` - investment adviser lookup. The original filename spelling is preserved.
+- `banking-relationships.csv` - Banking relationship lookup (`BRId` to `Banking Relationship`).
+- `gender.csv` - Gender lookup (`GenderId` to `Gender`).
+- `investment-advisors.csv` - Investment advisor lookup (`IAId` to `Investment Advisor`).
 
-The root `Banking.csv` remains in place because it is the input used by the Python analysis and may be referenced by the Power BI model.
-
-Before publishing raw data, follow the data/publication notice in the repository README.
+The root `Banking.csv` is the single canonical fact table consumed by the Python ETL, SQL database builder, notebook, and Power BI model. It contains 3,000 banking records and 2,940 distinct client IDs; the duplicate IDs are a documented synthetic-data quality issue, not separate client populations.

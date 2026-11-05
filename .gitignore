@@ -4,10 +4,15 @@ __pycache__/
 .ipynb_checkpoints/
 .venv/
 venv/
+.pytest_cache/
 
 # Local and generated files
 tmp/
 *.log
+data_processed/
+*.db
+*.sqlite
+*.sqlite3
 
 # Operating-system files
 .DS_Store

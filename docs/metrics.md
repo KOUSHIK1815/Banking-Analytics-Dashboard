@@ -61,6 +61,6 @@ The definitions below make the Power BI and SQL logic understandable without ope
 - **Engagement Account** is a sum of engagement days, not a currency amount; it should be renamed and formatted as days.
 - The data is a customer-level snapshot, not a dated transaction ledger. Timeframe analysis reflects how long a customer has been with the bank, not historical performance over calendar time.
 - The dataset does not include default, repayment, approval, or loss outcomes. It supports descriptive customer/portfolio segmentation only, not credit underwriting or risk prediction.
-- **Every client has an advisor ID** (22 advisors, 88–177 clients each). There is no "unassigned advisor" field, so avoid claiming an unassigned-advisor cross-sell segment.
+- **Every record has an advisor ID** (22 advisors, 88–177 records each; 87–177 distinct clients). There is no "unassigned advisor" field, so avoid claiming an unassigned-advisor cross-sell segment. Because 54 duplicated client IDs map to more than one advisor, advisor caseload is approximate at the client level.
 - **The $150,000 deposit cutoff is not selective**: it captures 94.5% of records. Use the top decile ($2.72M+) or top quartile ($1.74M+) when defining a high-value segment.
 - **Cross-sell whitespace is limited**: 99.1% of records have a bank loan, 99.5% have business lending, 100% have a credit card balance, and 98.9% have deposits/savings/checking. Only 27 records have no bank loan; none have zero total debt.

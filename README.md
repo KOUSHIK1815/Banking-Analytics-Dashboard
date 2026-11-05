@@ -26,7 +26,7 @@ flowchart LR
     C --> D[("banking.db<br/>star schema")]
     D --> E["Analytics queries<br/>sql/analytics_queries.sql"]
     B --> F["data_processed/<br/>CSV + JSON summary"]
-    F --> G["EDA notebook<br/>notebooks/banking_eda.ipynb"]
+    A --> G["EDA notebook<br/>notebooks/banking_eda.ipynb"]
     A --> H["Power BI report<br/>5 pages"]
 ```
 
@@ -35,7 +35,7 @@ flowchart LR
 ## Project Highlights
 
 - **3,000 banking records / 2,940 distinct clients** across 25 demographic, asset, debt, and loyalty fields.
-- **SQLite star schema** (1 fact table + 3 dimensions) with **7 analytical queries**: 6 business queries using `NTILE`, `DENSE_RANK`, and CTEs, plus a duplicate-client audit.
+- **SQLite star schema** (1 fact table + 3 dimensions) with **7 analytical queries**: 6 business queries (including `NTILE`, `DENSE_RANK`, and CTE-based analysis) plus a duplicate-client audit.
 - **Automated Python ETL pipeline** that standardizes types, joins dimensions, engineers derived metrics, and writes a processed CSV plus JSON summary to `data_processed/`.
 - **10 automated data-quality tests** covering file integrity, UTF-8 encoding, schema/row-count contracts, client-ID collisions, referential integrity, advisor coverage, and non-negative financial invariants.
 - **5-page Power BI report** covering Home, Loan Analysis, Deposit Analysis, Summary, and a client-detail drill-through.
@@ -119,7 +119,7 @@ flowchart LR
    *Strategy:* review retention and pricing for high-fee-tier clients, and do not assume fee tier and income tier are the same population.
 
 4. **The high-value segment should be defined by the top decile, not $150k.**
-   The top decile of total deposits starts at **$2.72M** and contains **300 records**. Only **5** of those records have no bank loan. There are **22 advisors** with 88–177 clients each, and every client has an advisor ID.
+   The top decile of total deposits starts at **$2.72M** and contains **300 records**. Only **5** of those records have no bank loan. There are **22 advisors** with 88–177 records each (87–177 distinct clients), and every record has an advisor ID.
    *Strategy:* prioritise top-decile clients for advisor review and use advisor caseload/coverage — there is no "unassigned advisor" population in this dataset.
 
 5. **Cross-sell whitespace is limited.**
@@ -135,7 +135,7 @@ flowchart LR
 
 - **Synthetic snapshot, not a transaction ledger.** The data has no dates of individual transactions, defaults, repayments, approvals, or losses. It supports descriptive segmentation only.
 - **Client-ID collisions.** 3,000 records map to 2,940 distinct clients; use distinct counts for client KPIs.
-- **No unassigned advisors.** Every client has an `IAId`; the advisor analysis is about caseload and coverage, not assignment gaps.
+- **No unassigned advisors.** Every record has an `IAId`; 22 advisors cover 88–177 records each (87–177 distinct clients). Because 54 duplicated client IDs map to more than one advisor, client-level caseload is approximate.
 - **The $150k deposit cutoff is not selective.** It captures 94.5% of records. Use the top decile ($2.72M+) or top quartile ($1.74M+) for high-value segmentation.
 - **Total CC Amount is a count.** The PBIX tile is currently formatted as currency; the underlying `Amount of Credit Cards` field should be formatted as a whole-number card count.
 - **SQL dialect is SQLite.** The schema uses `AUTOINCREMENT` and the queries use `strftime`. PostgreSQL requires identity columns and `EXTRACT`/`DATE_TRUNC` equivalents.
@@ -188,4 +188,4 @@ Open [`powerbi/banking_dashboard.pbix`](./powerbi/banking_dashboard.pbix) in Pow
 
 ## Resume Bullet Format (STAR Method)
 
-> Built an end-to-end banking analytics portfolio project on 3,000 records (2,940 distinct clients): designed a SQLite star schema with six business queries using `NTILE`, `DENSE_RANK`, and CTEs; automated a Python ETL pipeline with 10 data-quality tests; and delivered a 5-page Power BI dashboard that quantified a 116.4% loan-to-deposit ratio and a $158.2M estimated fee base.
+> Built an end-to-end banking analytics portfolio project on 3,000 records (2,940 distinct clients): designed a SQLite star schema with six business queries (including `NTILE`, `DENSE_RANK`, and CTE-based analysis); automated a Python ETL pipeline with 10 data-quality tests; and delivered a 5-page Power BI dashboard that quantified a 116.4% loan-to-deposit ratio and a $158.2M estimated fee base.

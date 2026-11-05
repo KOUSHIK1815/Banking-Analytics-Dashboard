@@ -126,7 +126,7 @@ RETURN
 ```
 
 ### Advisor Coverage Note
-Every client has an `IAId`; the dataset contains 22 advisors with 88–177 clients each. There is no "unassigned advisor" field, so do not report an unassigned-advisor ratio. Use advisor caseload and top-decile coverage instead.
+Every record has an `IAId`; the dataset contains 22 advisors with 88–177 records each (87–177 distinct clients). There is no "unassigned advisor" field, so do not report an unassigned-advisor ratio. Because 54 duplicated client IDs map to more than one advisor, advisor caseload is approximate at the client level. Use advisor caseload and top-decile coverage instead.
 
 ---
 

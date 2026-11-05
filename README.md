@@ -21,14 +21,47 @@ The project includes a **SQLite star schema with analytical queries**, an **auto
 
 ```mermaid
 flowchart LR
-    A["Banking.csv<br/>3,000 records"] --> B["Python ETL<br/>src/etl.py"]
-    A --> C["SQLite loader<br/>scripts/build_sqlite_db.py"]
-    C --> D[("banking.db<br/>star schema")]
-    D --> E["Analytics queries<br/>sql/analytics_queries.sql"]
-    B --> F["data_processed/<br/>CSV + JSON summary"]
-    A --> G["EDA notebook<br/>notebooks/banking_eda.ipynb"]
-    A --> H["Power BI report<br/>5 pages"]
+    A["Banking.csv<br/>3,000 records"]
+    D["datasets/<br/>3 lookup CSVs"]
+    S["sql/schema.sql"]
+
+    subgraph Python["Python layer"]
+        B["ETL<br/>src/etl.py"]
+        C["SQLite loader<br/>scripts/build_sqlite_db.py"]
+        G["EDA notebook<br/>notebooks/banking_eda.ipynb"]
+    end
+
+    subgraph SQLite["SQLite layer"]
+        DB[("data_processed/banking.db<br/>1 fact + 3 dimensions")]
+        Q["sql/analytics_queries.sql"]
+        R["Query results<br/>printed to console"]
+    end
+
+    subgraph Outputs["Outputs"]
+        F["data_processed/<br/>processed CSV + JSON summary"]
+        H["Power BI report<br/>5 pages (embedded model)"]
+        P["PDF / dashboard preview"]
+    end
+
+    A --> B
+    D --> B
+    B --> F
+
+    A --> C
+    D --> C
+    S --> C
+    C --> DB
+    C -->|run queries| Q
+    DB --> Q
+    Q --> R
+
+    A --> G
+    A -->|fact| H
+    D -->|lookups| H
+    H --> P
 ```
+
+Power BI uses an embedded model built from `Banking.csv` and the three lookup CSVs; the notebook reads `Banking.csv` directly. The ETL outputs in `data_processed/` are reproducible artifacts and are not a runtime dependency for the notebook or the Power BI report.
 
 ---
 
